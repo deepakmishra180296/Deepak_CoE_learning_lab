@@ -4,8 +4,8 @@
 ## TDD Implementation Journey — String Calculator
 
 The String Calculator was developed incrementally using Test-Driven Development (TDD), following the **Red-Green-Refactor** cycle. Each requirement was introduced through a failing test, followed by the minimum production code required to make it pass, and subsequent refactoring.
-[String Calculator (TDD)] (https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/string_calculator.py)
-[Test String Calculator (TDD)] (https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/test_string_calculator.py)
+[String Calculator (TDD)](https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/string_calculator.py)
+[Test String Calculator (TDD)](https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/test_string_calculator.py)
 
 ## Implementation Steps
 
@@ -38,8 +38,8 @@ The String Calculator was developed incrementally using Test-Driven Development 
 - Ensured that new functionality did not break previously implemented behavior through regression testing.
 
 ## Applying ZOMBIES to the String Calculator
-[String Calculator (ZOMBIES)] (https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/string_calculator_ZOMBIES.py)
-[Test String Calculator (TDD)] (https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/test_string_calculator_ZOMBIES.py)
+[String Calculator (ZOMBIES)](https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/string_calculator_ZOMBIES.py)
+[Test String Calculator (TDD)](https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/test_string_calculator_ZOMBIES.py)
 
 ZOMBIES is a scenario-selection guide. The letters stand for:
 
@@ -63,7 +63,7 @@ ZOMBIES is **not a rigid, strictly sequential checklist**. The article describes
 - Tests document both normal behavior and exceptional behavior, and regression runs protect previously implemented functionality.
 - Simple tests and minimal implementations make the cause-and-effect relationship between a requirement and a code change easier to understand.
 
-## [Playwright ZOMBIES Example] (https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/test_playwright_login_ZOMBIES.py)
+## [Playwright ZOMBIES Example](https://github.com/deepakmishra180296/Deepak_CoE_learning_lab/blob/main/test_playwright_login_ZOMBIES.py)
 An example of applying the ZOMBIES TDD methodology to UI testing using Playwright. Here is a short explanation of what was implemented:
 
 - **Z (Zero)**: Checks the initial state by ensuring the login page loads with empty fields (`test_login_page_loads_correctly`).
