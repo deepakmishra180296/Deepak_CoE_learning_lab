@@ -1,0 +1,6 @@
+.DS_Store
+.venv
+.pytest_cache
+tests/__pycache__
+test_error.log
+test-results
