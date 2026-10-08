@@ -4,3 +4,9 @@
 tests/__pycache__
 test_error.log
 test-results
+typescript-exercises/greenkart-bdd/node_modules
+typescript-exercises/greenkart-bdd/dist
+typescript-exercises/greenkart-bdd/reports
+typescript-exercises/greenkart-bdd/test-results
+typescript-exercises/greenkart-bdd/playwright-report
+typescript-exercises/greenkart-bdd/blob-report
