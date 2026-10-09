@@ -60,17 +60,17 @@
 
 Here is a quick overview of what each file:
 
-- **[`pytest.ini`](../pytest.ini)**
+- **[`pytest.ini`](../python_exercises/pytest.ini)**
   This is the main configuration file. It tells Pytest to automatically capture screenshots, videos, and traces when tests fail, and sets up our retry logic so tests get re-executed after failure.
 
-- **[`conftest.py`](../tests/conftest.py)**
+- **[`conftest.py`](../python_exercises/tests/conftest.py)**
   This as the global setup file. It contains a global error handler that automatically listens for console errors and page crashes in the background, keeping our actual test scripts clean and focused.
 
-- **[`test_retry.py`](../tests/test_retry.py)**
+- **[`test_retry.py`](../python_exercises/tests/test_retry.py)**
   This file is an example on how to handle dynamic web elements using retry logic. It uses Playwright's built-in assertions to patiently wait for a button to appear and become clickable, proving how to avoid failures caused by slow loading times. To triger the rerun we can change the locator slightly such that it fails  we can decrease the timeout value.
 
-- **[`test_isolation.py`](../tests/test_isolation.py)**
+- **[`test_isolation.py`](../python_exercises/tests/test_isolation.py)**
   Example file to demonstrate tests shouldn't rely on each other. It shows robust, isolated tests that use setup fixtures to guarantee they always start with a clean slate.
 
-- **[`test_gloabal_error.py`](../tests/test_global_error.py)**
+- **[`test_gloabal_error.py`](../python_exercises/tests/test_global_error.py)**
   The script inserts a console error in the page that is than capture by global error handler that is set up in conftest.py file.

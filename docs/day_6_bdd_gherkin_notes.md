@@ -160,7 +160,7 @@ Before finalising a scenario, check:
 
 ## 7. GreenKart BDD Project
 
-This is a practical example of the above principles inside the `typescript-exercises/greenkart-bdd` folder. This project automates the [GreenKart](https://rahulshettyacademy.com/seleniumPractise/#/) e-commerce site using **Cucumber**, **TypeScript**, and **Playwright**.
+This is a practical example of the above principles inside the [typescript-exercises/greenkart-bdd](../typescript-exercises/greenkart-bdd/) folder. This project automates the [GreenKart](https://rahulshettyacademy.com/seleniumPractise/#/) e-commerce site using **Cucumber**, **TypeScript**, and **Playwright**.
 
 ### How to Run the Tests
 1. Open your terminal and navigate into the folder: `cd typescript-exercises/greenkart-bdd`
