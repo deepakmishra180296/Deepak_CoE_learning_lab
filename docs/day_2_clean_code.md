@@ -287,7 +287,7 @@ The example verifies that a web page contains a welcome message with proper exce
 
 
 ```python
-import purest
+import pytest
 from playwright.sync_api import Page, expect
 
 Def test_welcome_message_is_visible(page: Page) -> None:
@@ -308,6 +308,7 @@ Def test_welcome_message_is_visible(page: Page) -> None:
 			f"Details: {error}",
 			pytrace=False
 				)
+```
 **Notes:**
 - The exception handler specifically catches AssertionError.
 - We avoid catching unrelated exceptions unnecessarily.
