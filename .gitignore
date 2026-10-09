@@ -1,6 +1,8 @@
 .DS_Store
 .venv
 .pytest_cache
+__pycache__
+.claude
 tests/__pycache__
 test_error.log
 test-results
@@ -10,3 +12,4 @@ typescript-exercises/greenkart-bdd/reports
 typescript-exercises/greenkart-bdd/test-results
 typescript-exercises/greenkart-bdd/playwright-report
 typescript-exercises/greenkart-bdd/blob-report
+typescript-exercises/greenkart-bdd/.claude
