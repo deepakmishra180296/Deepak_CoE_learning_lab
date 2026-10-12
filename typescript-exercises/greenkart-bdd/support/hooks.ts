@@ -25,11 +25,18 @@ BeforeAll(async function () {
 // Before runs before EVERY scenario.
 Before(async function (this: CustomWorld) {
     this.context = await browser.newContext();
+    await this.context.tracing.start({ screenshots: true, snapshots: true });
     this.page = await this.context.newPage();
 });
 
 // After runs after EVERY scenario.
-After(async function (this: CustomWorld) {
+After(async function (this: CustomWorld, scenario) {
+    if (scenario.result?.status && scenario.result.status.toString() !== 'PASSED') {
+        const cleanName = scenario.pickle.name.replace(/[^a-zA-Z0-9]/g, '_');
+        await this.context.tracing.stop({ path: `reports/traces/${cleanName}.zip` });
+    }else {
+        await this.context.tracing.stop();
+    }
     await this.page.close();
     await this.context.close();
 });
