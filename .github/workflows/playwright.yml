@@ -1,0 +1,102 @@
+name: Playwright Tests CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  # Job 1: Run Python Playwright Tests with Sharding
+  playwright-python:
+    name: Python Playwright (Shard ${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+        include:
+          - shard: 1
+            test_files: "tests/test_isolation.py tests/test_string_calculator.py tests/test_string_calculator_zombies.py"
+          - shard: 2
+            test_files: "tests/test_retry.py tests/test_advance_ui_automation.py tests/test_global_error.py tests/test_playwright_login_zombies.py"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r python_exercises/requirements.txt
+
+      - name: Install Playwright browsers
+        run: |
+          playwright install --with-deps chromium
+
+      - name: Run Python Playwright tests (Shard ${{ matrix.shard }})
+        working-directory: python_exercises
+        run: |
+          pytest ${{ matrix.test_files }}
+
+      - name: Upload Python Test Report and Traces
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: python-playwright-report-shard-${{ matrix.shard }}
+          path: |
+            python_exercises/report.html
+            python_exercises/test-results/
+          retention-days: 7
+
+  # Job 2: Run TypeScript Playwright BDD Tests with Sharding
+  playwright-typescript:
+    name: TypeScript Playwright (Shard ${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+        include:
+          - shard: 1
+            features: "features/add_to_cart.feature features/checkout.feature"
+          - shard: 2
+            features: "features/product_search_coverage.feature features/search_product.feature"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: typescript-exercises/greenkart-bdd/package-lock.json
+
+      - name: Install Node dependencies
+        working-directory: typescript-exercises/greenkart-bdd
+        run: |
+          npm ci
+
+      - name: Install Playwright browsers
+        working-directory: typescript-exercises/greenkart-bdd
+        run: |
+          npx playwright install --with-deps chromium
+
+      - name: Run TypeScript Playwright tests (Shard ${{ matrix.shard }})
+        working-directory: typescript-exercises/greenkart-bdd
+        run: |
+          npx cucumber-js ${{ matrix.features }}
+
+      - name: Upload TypeScript Test Report and Traces
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: typescript-playwright-report-shard-${{ matrix.shard }}
+          path: |
+            typescript-exercises/greenkart-bdd/reports/
+          retention-days: 14
