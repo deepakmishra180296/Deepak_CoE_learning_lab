@@ -1,5 +1,5 @@
 import pytest
-from python_exercises.string_calculator.string_calculator_zombies import StringCalculatorZOMBIES
+from string_calculator.string_calculator_zombies import StringCalculatorZOMBIES
 
 # Z - Zero
 def test_empty_string():
