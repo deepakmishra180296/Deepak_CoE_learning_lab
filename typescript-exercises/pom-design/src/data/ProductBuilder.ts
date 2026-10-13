@@ -1,6 +1,3 @@
-/**
- * ProductData represents an e-commerce product model.
- */
 export interface ProductData {
     name: string;
     quantity: number;
@@ -8,14 +5,6 @@ export interface ProductData {
     category?: string;
 }
 
-/**
- * ProductBuilder implements the Builder Pattern for test data.
- *
- * Why Builder Pattern:
- * - Solves the "telescoping constructor" problem when an object has many fields.
- * - Provides a readable, fluent API to construct complex objects step by step.
- * - Allows tests to selectively customize only the fields they care about.
- */
 export class ProductBuilder {
     private product: ProductData = {
         name: 'Cucumber',

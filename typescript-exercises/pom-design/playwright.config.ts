@@ -1,11 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/**
- * Minimal Playwright configuration for Demo:
- * - Simple screenshot on test failure only
- * - No traces, no videos
- * - Clean console list reporter
- */
 export default defineConfig({
   testDir: './tests',
   timeout: 30 * 1000,
