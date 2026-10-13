@@ -1,7 +1,5 @@
 # Day 9 – Page Object Model Depth & Framework Architecture
 
-*Personal study and hands-on exercise notes.*
-
 ## 1. Design Patterns Relevant to Day 9 – Refactoring.Guru
 
 **Summary:** Factory Method and Builder are creational patterns. They help create objects without spreading object-construction details throughout the code.
