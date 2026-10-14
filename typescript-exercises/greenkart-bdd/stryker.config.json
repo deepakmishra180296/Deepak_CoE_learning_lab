@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
+  "mutate": [
+    "steps/add_to_cart_steps.ts"
+  ],
+  "testRunner": "command",
+  "commandRunner": {
+    "command": "npm run test:cart"
+  },
+  "reporters": [
+    "html",
+    "clear-text",
+    "progress"
+  ],
+  "concurrency": 1,
+  "timeoutMS": 60000,
+  "coverageAnalysis": "off",
+  "cleanTempDir": "always"
+}
