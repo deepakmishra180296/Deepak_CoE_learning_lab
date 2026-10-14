@@ -48,62 +48,62 @@ function parseNameList(commaSeparatedNames: string): string[] {
     return commaSeparatedNames.split(', ');
 }
 
-// Wait until every product card of the full catalog is rendered.
+
 Given('the full product catalog has loaded', async function (this: CustomWorld) {
     await expect(this.page.locator(PRODUCT_CARD)).toHaveCount(CATALOG_SIZE, { timeout: CATALOG_LOAD_TIMEOUT_MS });
 });
 
-// Type the search term into the product search box.
+
 When('I type {string} into the product search', async function (this: CustomWorld, searchTerm: string) {
     await this.page.locator(SEARCH_INPUT).fill(searchTerm);
 });
 
-// Type one literal backslash, which {string} cannot carry through Gherkin escaping.
+
 When('I type a single backslash into the product search', async function (this: CustomWorld) {
     await this.page.locator(SEARCH_INPUT).fill('\\');
 });
 
-// Verify the visible product names match the expected list exactly, in order.
+
 Then('the product results should be exactly {string}', async function (this: CustomWorld, expectedNames: string) {
     await expect(this.page.locator(PRODUCT_NAME)).toHaveText(parseNameList(expectedNames));
 });
 
-// Verify that no product cards are displayed.
+
 Then('no product cards should be shown', async function (this: CustomWorld) {
     await expect(this.page.locator(PRODUCT_CARD)).toHaveCount(0);
 });
 
-// Verify the site's empty-state message is displayed.
+
 Then('the no-results message should be shown', async function (this: CustomWorld) {
     await expect(this.page.locator(EMPTY_STATE)).toHaveText(EMPTY_STATE_TEXT);
 });
 
-// Replace the current search term with a new one.
+
 When('I replace the product search with {string}', async function (this: CustomWorld, searchTerm: string) {
     await this.page.locator(SEARCH_INPUT).fill(searchTerm);
 });
 
-// Empty the product search box.
+
 When('I clear the product search', async function (this: CustomWorld) {
     await this.page.locator(SEARCH_INPUT).fill('');
 });
 
-// Type a search term of the given length made of a character that matches no product.
+
 When('I type a product search of {int} characters', async function (this: CustomWorld, length: number) {
     await this.page.locator(SEARCH_INPUT).fill(NO_MATCH_CHARACTER.repeat(length));
 });
 
-// Click the search button next to the search box.
+
 When('I click the product search button', async function (this: CustomWorld) {
     await this.page.locator(SEARCH_BUTTON).click();
 });
 
-// Verify the results list the whole catalog in order.
+
 Then('the product results should be the full catalog', async function (this: CustomWorld) {
     await expect(this.page.locator(PRODUCT_NAME)).toHaveText([...CATALOG]);
 });
 
-// Verify the results list the whole catalog in order except the named product.
+
 Then('the product results should be every product except {string}', async function (this: CustomWorld, excludedName: string) {
     await expect(this.page.locator(PRODUCT_NAME)).toHaveText(CATALOG.filter(name => name !== excludedName));
 });

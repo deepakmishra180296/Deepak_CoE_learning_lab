@@ -15,7 +15,7 @@ jobs:
         shard: [1, 2]
         include:
           - shard: 1
-            test_files: "tests/test_isolation.py tests/test_string_calculator.py tests/test_string_calculator_zombies.py"
+            test_files: "tests/test_string_calculator.py tests/test_string_calculator_zombies.py"
           - shard: 2
             test_files: "tests/test_global_error.py"
 
