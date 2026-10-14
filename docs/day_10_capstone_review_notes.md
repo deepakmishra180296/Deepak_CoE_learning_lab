@@ -85,6 +85,12 @@ Reviewing [`typescript-exercises/greenkart-bdd/steps/add_to_cart_steps.ts`](../t
 | **E – Exceptional** | **Critical Defect** | Scenario `Add a product to the cart with invalid quantity` contains no real assertion—passes falsely despite GreenKart not validating `-1`. |
 | **S – Simple Scenarios** | Mixed | Scenarios are short, but mix drawer-opening mechanics with state assertions. |
 
+### Peer Review
+- Implemntation of POM instead of passing locators in the script.
+- Test should not have custom behaviour as it would be difficult to maintain.
+- Comment should be present only when necessary.
+- Locators should be dynamic instead of index based.
+
 ---
 
 ## 6. Test Strategy: Apply Discount Coupon at Checkout

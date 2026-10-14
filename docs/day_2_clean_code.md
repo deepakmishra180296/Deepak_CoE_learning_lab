@@ -111,205 +111,40 @@ Use this checklist while writing code (developers) or while reviewing and testin
 - [ ] Code touched in this change was left cleaner than it was found (small refactors, better names, removed duplication).
 
 ---
+## 7. Exercise: Refactoring a Complex Test into Clean Code (GreenKart with Playwright & Python)
 
-## 7. Example: Refactoring Unclean Code into Clean Code (Python)
+This example demonstrates how to apply Day 2 Clean Code principles to end-to-end test automation.
+ - **Unclean Code** - [python-exercise/tests/test_unclean_code.py](./python_exercises/tests/test_unclean_code.py)
+ - **Clean Code** - [python-exercise/tests/test_clean_code.py](./python_exercises/tests/test_clean_code.py)
 
-The example below calculates the total price of an order. The **behavior is exactly the same** before and after the refactoring; only the structure, naming, and readability change.
+### What Changed and Why
+- **Intention-Revealing Names** - Anyone reading the test name or failure report immediately understands the user journey.
+- **No Magic Values** - Centralized values; changing the promo code or URL updates in exactly one place.
+- **Small, Single-Purpose Functions** - Reusable across other tests; easy to maintain and test individually.
+- **No Arbitrary Sleeps (Anti-Flake)** - Tests run significantly faster and poll automatically until elements appear or update.
+- **Command-Query Separation** - Functions either query a locator or execute an action, not both.
+- **No Swallowed Exceptions** - Test will fail loudly and accurately if the promo server or coupon fails.
 
-**Business rules:**
-- Customers get a tier discount: Silver 10% off, Gold 20% off, Regular none.
-- Items with zero quantity are ignored.
-- Orders above 500 after the tier discount get a flat 50 off.
-- 18% GST is added to the final amount.
-
-### 7.1 Before: Unclean Code
-
-```python
-def proc(d, t, f, lst):
-    # process order
-    r = 0
-    if d != None:
-        if len(d["items"]) > 0:
-            for i in d["items"]:
-                if i["q"] > 0:
-                    if t == 1:
-                        r = r + i["p"] * i["q"] * 0.9
-                    elif t == 2:
-                        r = r + i["p"] * i["q"] * 0.8
-                    else:
-                        r = r + i["p"] * i["q"]
-            if r > 500:
-                r = r - 50
-            r = r + r * 0.18
-            if f:
-                print("Order total: " + str(r))
-            lst.append(r)
-            return r
-        else:
-            return -1
-    else:
-        return -1
-```
-
-### 7.2 After: Clean Code
-
-```python
-from dataclasses import dataclass
-from enum import Enum
-
-GST_RATE = 0.18
-BULK_ORDER_THRESHOLD = 500
-BULK_ORDER_DISCOUNT = 50
-
-
-class CustomerTier(Enum):
-    REGULAR = "regular"
-    SILVER = "silver"
-    GOLD = "gold"
-
-
-TIER_PRICE_MULTIPLIER = {
-    CustomerTier.REGULAR: 1.0,
-    CustomerTier.SILVER: 0.9,  # 10% off
-    CustomerTier.GOLD: 0.8,    # 20% off
-}
-
-
-class EmptyOrderError(ValueError):
-    """Raised when an order has no billable items."""
-
-
-@dataclass
-class OrderItem:
-    unit_price: float
-    quantity: int
-
-    @property
-    def subtotal(self) -> float:
-        return self.unit_price * self.quantity
-
-
-@dataclass
-class Order:
-    items: list[OrderItem]
-    customer_tier: CustomerTier
-
-
-def calculate_order_total(order: Order) -> float:
-    billable_items = get_billable_items(order.items)
-    subtotal = sum(item.subtotal for item in billable_items)
-    discounted_amount = apply_tier_discount(subtotal, order.customer_tier)
-    discounted_amount = apply_bulk_order_discount(discounted_amount)
-    return add_gst(discounted_amount)
-
-
-def get_billable_items(items: list[OrderItem]) -> list[OrderItem]:
-    if not items:
-        raise EmptyOrderError("Order must contain at least one item.")
-    return [item for item in items if item.quantity > 0]
-
-
-def apply_tier_discount(amount: float, tier: CustomerTier) -> float:
-    return amount * TIER_PRICE_MULTIPLIER[tier]
-
-
-def apply_bulk_order_discount(amount: float) -> float:
-    if amount > BULK_ORDER_THRESHOLD:
-        return amount - BULK_ORDER_DISCOUNT
-    return amount
-
-
-def add_gst(amount: float) -> float:
-    return amount * (1 + GST_RATE)
-```
-
-Printing and storing the result are no longer hidden inside the calculation. The caller decides what to do with the total:
-
-```python
-order = Order(
-    items=[OrderItem(unit_price=400, quantity=2), OrderItem(unit_price=15, quantity=3)],
-    customer_tier=CustomerTier.GOLD,
-)
-
-order_total = calculate_order_total(order)   # query: only calculates
-order_history.append(order_total)            # command: done explicitly by the caller
-print(f"Order total: {order_total:.2f}")
-```
-
-### 7.3 Tests: Clean Code Includes Tests
-
-```python
-import pytest
-
-
-def test_gold_customer_gets_tier_and_bulk_discount():
-    order = Order([OrderItem(unit_price=400, quantity=2)], CustomerTier.GOLD)
-    # 800 * 0.8 = 640 -> bulk discount -> 590 -> +18% GST -> 696.20
-    assert calculate_order_total(order) == pytest.approx(696.20)
-
-
-def test_regular_customer_below_bulk_threshold_pays_full_price_plus_gst():
-    order = Order([OrderItem(unit_price=100, quantity=2)], CustomerTier.REGULAR)
-    assert calculate_order_total(order) == pytest.approx(236.00)
-
-
-def test_empty_order_raises_error():
-    with pytest.raises(EmptyOrderError):
-        calculate_order_total(Order(items=[], customer_tier=CustomerTier.SILVER))
-```
-
-### 7.4 What Changed and Why
-
-| Refactoring step | Before | After | Benefit |
-|---|---|---|---|
-| **Intention-revealing names** | `proc(d, t, f, lst)`, `r`, `i["p"]` | `calculate_order_total(order)`, `unit_price`, `quantity` | Code explains itself; no comment needed |
-| **Named constants** | `0.18`, `500`, `50` | `GST_RATE`, `BULK_ORDER_THRESHOLD`, `BULK_ORDER_DISCOUNT` | Searchable; one place to change a rule |
-| **Enum instead of number codes** | `t == 1`, `t == 2` | `CustomerTier.SILVER`, `CustomerTier.GOLD` | Invalid tiers are impossible; meaning is obvious |
-| **Nouns for classes** | Raw dictionaries | `Order`, `OrderItem` | Data has a clear structure and name |
-| **Verbs for functions** | `proc` | `apply_tier_discount`, `add_gst` | Each name states the action |
-| **Small, single-purpose functions** | One 20-line function | Five functions of 1 to 5 lines | Easy to read, test, and change in isolation |
-| **Flat structure** | Four levels of nesting | No nesting beyond one `if` | Logic reads top to bottom like a story |
-| **Fewer arguments** | 4 arguments, including a flag | 1 argument | Easier to call and understand |
-| **Command-Query Separation** | Calculates, prints, and appends | Only calculates; caller prints and stores | No hidden side effects |
-| **Exceptions over error codes** | `return -1` | `raise EmptyOrderError(...)` | Errors can't be silently mistaken for a price |
-| **DRY** | `p * q` repeated three times | `OrderItem.subtotal` defined once | A single source of truth |
-| **Tests** | None | Unit tests for key rules | Safe to refactor further |
-
-### 7.5 Key Takeaway
-
-The clean version is longer in lines, but far easier to **read** (`calculate_order_total` reads like the business rules), **understand** (every name and constant explains itself), and **work on** (changing the GST rate touches one line, adding a new tier touches only the enum and its multiplier, and tests confirm nothing broke).
-
----
 
 ## 8. Example: Error Handling - Playwright Test
 
-The example verifies that a web page contains a welcome message with proper exception handling. It only handles expected failure and preserves the test failure status.
+The [example](../python_exercises/tests/test_error_handling.py) verifies that a web page contains a welcome message with proper exception handling. It only handles expected failure and preserves the test failure status.
 
-
-```python
-import pytest
-from playwright.sync_api import Page, expect
-
-Def test_welcome_message_is_visible(page: Page) -> None:
-	"""
-	Verify that the welcome message is present and visible.
-	"""
-	
-	page.goto("https://example.com")
-	
-	welcome_message = page.get_by_test_id("welcome-message")
-
-	try:
-		except(welcome_message).to_be_visible(timeout=5000)
-
-	except AssertionError as error:
-		purest.fail(
-			f"welcome message is missing or not visible."
-			f"Details: {error}",
-			pytrace=False
-				)
-```
 **Notes:**
 - The exception handler specifically catches AssertionError.
 - We avoid catching unrelated exceptions unnecessarily.
+
+## 9. When to Catch an Exception
+
+Catch an exception when you can handle it meaningfully or add useful context.
+
+- Catch specific exceptions instead of using a broad `Exception`.
+- Handle expected failures, such as a missing configuration file or a recoverable API error.
+- Use `try-except` only when you have a clear action to take.
+- Avoid catching exceptions just to prevent the program from stopping.
+
+## 10. Reflection: How Clean Code Connects to QA Craftsmanship
+
+Clean code is an important part of QA craftsmanship because automation is not just about making tests pass, but also about making them reliable, readable, and easy to maintain. By following practices such as meaningful naming, keeping functions focused, avoiding duplication, and handling exceptions properly, I can build test scripts that clearly communicate the behavior being verified. I also learned that catching every exception is not good practice, as it can hide failures instead of helping identify the root cause. As a QA engineer, writing clean code helps me create trustworthy tests, debug failures faster, and make the automation framework easier for the entire team to understand and improve.
+____
 
