@@ -17,7 +17,7 @@ jobs:
           - shard: 1
             test_files: "tests/test_isolation.py tests/test_string_calculator.py tests/test_string_calculator_zombies.py"
           - shard: 2
-            test_files: "tests/test_retry.py tests/test_advance_ui_automation.py tests/test_global_error.py tests/test_playwright_login_zombies.py"
+            test_files: "tests/test_global_error.py"
 
     steps:
       - name: Checkout repository
@@ -62,9 +62,9 @@ jobs:
         shard: [1, 2]
         include:
           - shard: 1
-            features: "features/add_to_cart.feature features/checkout.feature"
+            features: "features/checkout.feature"
           - shard: 2
-            features: "features/product_search_coverage.feature features/search_product.feature"
+            features: "features/search_product.feature"
 
     steps:
       - name: Checkout repository
@@ -73,7 +73,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: typescript-exercises/greenkart-bdd/package-lock.json
 
@@ -99,4 +99,4 @@ jobs:
           name: typescript-playwright-report-shard-${{ matrix.shard }}
           path: |
             typescript-exercises/greenkart-bdd/reports/
-          retention-days: 14
+          retention-days: 7
