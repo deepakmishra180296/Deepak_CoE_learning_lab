@@ -1,4 +1,4 @@
-from ..string_calculator.string_calculator import StringCalculator
+from string_calculator.string_calculator import StringCalculator
 import pytest
 
 # Step 1: Test for empty, 1 number, and 2 numbers seprated by a comma
