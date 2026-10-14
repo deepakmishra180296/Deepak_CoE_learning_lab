@@ -48,7 +48,7 @@
 
 ## 6. Hands-on Exercise Implementation Notes
 
-**Summary:** We implemented a mini demo (`typescript-exercises/pom_demo`) using native Playwright Test to practice these architectural patterns with zero BDD overhead.
+**Summary:** We implemented a POM desgin (`typescript-exercises/pom-design`) using native Playwright Test to practice these architectural patterns with zero BDD overhead.
 
 - **Base Page Class (`BasePage.ts`):**
   - **What belongs:** Generic low-level utilities — wait helpers (`waitForElement`, `waitForUrl`), contextual logging (`log`, `logError`), and error capture (`safeAction`).
@@ -70,11 +70,11 @@
 
 ## How to Run the Tests
 
-To run the mini demo test suite:
+To run the test suite:
 
-1. Open your terminal and navigate to the demo directory:
+1. Open your terminal and navigate to the directory:
    ```bash
-   cd typescript-exercises/pom_demo
+   cd typescript-exercises/pom-design
    ```
 2. Install dependencies (first time only):
    ```bash
