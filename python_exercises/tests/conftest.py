@@ -16,9 +16,12 @@ logger = logging.getLogger(__name__)
 @pytest.fixture(autouse=True)
 def global_error_handler(page):
 
+    error_messages = []
+
     def handle_console_error(msg):
         if msg.type == "error":
             logger.error(f"[CONSOLE ERROR] {msg.text}")
+            error_messages.append(msg.text)
 
     def handle_crash():
         logger.error("[PAGE CRASH] The page crashed unexpectedly!")
@@ -30,4 +33,4 @@ def global_error_handler(page):
     page.on("crash", handle_crash)
     page.on("pageerror", handle_page_error)
 
-    yield
+    yield error_messages
