@@ -26,8 +26,7 @@
 
 ## 4. Retry Mechanism in Playwright Python
 
-- Playwright supports retries through the **Pytest plugin** using the `--retries` option.
-- Example: `pytest --retries=2` allows a failed test to run again before being marked as failed.
+- Playwright supports retries through the **Pytest plugin** using the marker option [error handling](../python_exercises/tests/test_error_handling.py).
 - Retries are useful for temporarily unstable environments, but they should not be used to hide genuinely flaky tests.
 - A test that passes only after retries should still be investigated and its root cause fixed.
 - Retry count can also be configured in `pytest.ini` when the project needs a consistent setting.
@@ -61,7 +60,7 @@
 Here is a quick overview of what each file:
 
 - **[`pytest.ini`](../python_exercises/pytest.ini)**
-  This is the main configuration file. It tells Pytest to automatically capture screenshots, videos, and traces when tests fail, and sets up our retry logic so tests get re-executed after failure.
+  This is the main configuration file. It tells Pytest to automatically capture screenshots, videos, and traces when tests fail.
 
 - **[`conftest.py`](../python_exercises/tests/conftest.py)**
   This as the global setup file. It contains a global error handler that automatically listens for console errors and page crashes in the background, keeping our actual test scripts clean and focused.

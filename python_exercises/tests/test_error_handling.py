@@ -1,6 +1,7 @@
 import pytest
 from playwright.sync_api import Page, expect
 
+@pytest.mark.flaky(reruns=2, reruns_delay=2)
 def test_welcome_message_is_visible(page: Page) -> None:
 	"""
 	Verify that the welcome message is present and visible.
