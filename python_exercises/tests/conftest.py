@@ -23,7 +23,11 @@ def global_error_handler(page):
     def handle_crash():
         logger.error("[PAGE CRASH] The page crashed unexpectedly!")
 
+    def handle_page_error(exception):
+        logger.error(f"[PAGE ERROR] {exception}")
+
     page.on("console", handle_console_error)
     page.on("crash", handle_crash)
+    page.on("pageerror", handle_page_error)
 
     yield

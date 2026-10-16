@@ -70,3 +70,44 @@ An example of applying the ZOMBIES TDD methodology to UI testing using Playwrigh
 - **O (One)**: Verifies the happy path for exactly one valid user logging in successfully (`test_one_user_valid_login_succeeds`).
 - **M (Many)**: Uses data-driven tests (parameterization) to verify multiple different users (e.g., admin, guest) can log in and hit their respective routes (`test_many_users_login_routing`).
 - **B (Boundaries)**: Tests the limits of the form by attempting to submit it entirely empty, verifying validation kicks in (`test_submit_empty_form`).
+
+___
+# TDD & ZOMBIES
+
+## Test Desiderata (Kent Beck) — Summary & Practical Pointers
+
+Kent Beck identified **12 desirable properties** (desiderata) of automated software tests. His central observation is that **no test suite can maximize all 12 properties simultaneously**. Instead, every automated test involves deliberate trade-offs.
+
+### The 12 Properties at a Glance
+
+1. **Isolated:** Tests produce identical results regardless of execution order. No shared mutable state or leaky database entries.
+2. **Composable:** Any arbitrary subset (1, 10, or 1,000) of tests can be executed together reliably.
+3. **Fast:** Tests give near-instantaneous feedback. When suites become slow, developers run them less often, breaking the TDD flow.
+4. **Inspiring:** A green test suite gives genuine confidence to deploy to production or perform major refactoring.
+5. **Writable:** Writing a test has low cognitive and mechanical friction relative to the production code being written.
+6. **Readable:** Tests act as clear, executable specifications. When a test fails, another developer can quickly understand the intent behind the test.
+7. **Behavioral:** Tests are sensitive to actual changes in observable behavior. If behavior changes, the test must catch it.
+8. **Structure-Insensitive:** Tests do *not* break when the internal implementation or architecture changes, provided external behavior stays constant.
+9. **Automated:** Tests run completely without manual intervention or human interpretation.
+10. **Specific:** When a test fails, the error message pinpoints the exact cause and location of the problem.
+11. **Deterministic:** Flakiness is zero. If the code and environment haven't changed, the test outcome never flips between passes and failures.
+12. **Predictive:** If all tests pass, the software is realistically ready for end-user production usage.
+
+---
+
+
+## Mocks Aren't Stubs (Martin Fowler) — Summary & Practical Pointers
+
+**Mocks and stubs operate on fundamentally different verification mechanisms** and reflect two distinct philosophies of TDD.
+
+- **Dummy:** Objects passed around merely to satisfy method signatures (e.g., filling required parameters) but never actually invoked.
+- **Stub:** Objects that provide pre-programmed "canned answers" to calls during testing. Stubs feed data into the System Under Test (SUT) and do not cause tests to fail on their own.
+- **Fake:** Objects with working business logic, but simplified so they are unsuitable for production (e.g., an in-memory repository or fake file system).
+- **Mock:** Objects pre-programmed with *expectations*—specifying which methods must be called, with what arguments, and in what order. Mocks actively verify interactions and fail if calls deviate from expectations.
+- **Spy:** A stub that additionally records outgoing interactions (e.g., counting calls or tracking passed arguments) for post-execution assertions.
+
+### Pragmatic Rules of Thumb for Test Design
+
+1. **Default to State Verification for Business Logic:** For algorithms, parsers, calculations, and domain entities (like our String Calculator), use real objects and state assertions.
+2. **Reserve Stubs for External Inputs:** Use stubs to provide predictable external data (e.g., faking an HTTP response or clock timestamp).
+3. **Use Mocks Sparingly at System Boundaries:** Mocks are best suited for verifying non-query actions on outward-facing boundaries where no observable state is left behind (e.g., verifying an email sender service was invoked with correct recipient and subject).
