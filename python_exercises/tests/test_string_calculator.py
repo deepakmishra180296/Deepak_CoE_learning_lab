@@ -33,3 +33,13 @@ def test_custom_delimiter_is_supported():
     calculator = StringCalculator()
     assert calculator.add("//;\n1;2") == 3
     assert calculator.add("//|\n1|2|3") == 6
+
+# Step 5: Test for negative numbers
+def test_negative_numbers_raise_exception():
+    calculator = StringCalculator()
+    
+    with pytest.raises(ValueError, match="negatives not allowed -2"):
+        calculator.add("1,-2")
+        
+    with pytest.raises(ValueError, match="negatives not allowed -2, -5"):
+        calculator.add("1,-2,-5")
