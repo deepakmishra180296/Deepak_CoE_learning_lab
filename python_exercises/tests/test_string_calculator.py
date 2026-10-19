@@ -15,3 +15,9 @@ def test_two_comma_separated_numbers():
     calculator = StringCalculator()
     assert calculator.add("1,2") == 3
     assert calculator.add("10,20") == 30
+
+# Step 2: Test for multiple comma-separated numbers
+def test_multiple_comma_separated_numbers():
+    calculator = StringCalculator()
+    assert calculator.add("1,2,3") == 6
+    assert calculator.add("1,2,3,4,5") == 15
