@@ -21,3 +21,9 @@ def test_multiple_comma_separated_numbers():
     calculator = StringCalculator()
     assert calculator.add("1,2,3") == 6
     assert calculator.add("1,2,3,4,5") == 15
+
+# Step 3: Test for newlines as delimiters
+def test_newlines_accepted_as_delimiters():
+    calculator = StringCalculator()
+    assert calculator.add("1\n2") == 3
+    assert calculator.add("1\n2,3") == 6
