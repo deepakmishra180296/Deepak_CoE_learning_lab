@@ -27,3 +27,9 @@ def test_newlines_accepted_as_delimiters():
     calculator = StringCalculator()
     assert calculator.add("1\n2") == 3
     assert calculator.add("1\n2,3") == 6
+
+# Step 4: Test for custom delimiters
+def test_custom_delimiter_is_supported():
+    calculator = StringCalculator()
+    assert calculator.add("//;\n1;2") == 3
+    assert calculator.add("//|\n1|2|3") == 6
