@@ -8,5 +8,10 @@ class StringCalculator:
             
         normalized_numbers = numbers.replace("\n", ",")
         parts = [int(part) for part in normalized_numbers.split(",")]
+        
+        negatives = [p for p in parts if p < 0]
+        if negatives:
+            raise ValueError(f"negatives not allowed {', '.join(map(str, negatives))}")
+            
         return sum(parts)
         
