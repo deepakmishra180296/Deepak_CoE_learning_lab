@@ -44,4 +44,4 @@
 
 - Created an [api test](../typescript-exercises/api-test/tests/api-testing.spec.ts) to fetch a user details and verify it.
 - Config the [Playwright Config](../typescript-exercises/api-test/playwright.config.ts) to include chrome, firefox and edge browser, so all the test in the `tests` folder are executed in all the three browsers.
-- Used a demo api to test a login api and verified token in response body. [LOGIN API](../typescript-exercises/api-test/tests/api-login.spec.tss)
+- Used a demo api to test a login api and verified token in response body. [LOGIN API](../typescript-exercises/api-test/tests/api-login.spec.ts)

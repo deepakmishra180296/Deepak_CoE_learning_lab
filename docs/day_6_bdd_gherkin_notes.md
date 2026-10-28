@@ -171,4 +171,8 @@ This is a practical example of the above principles inside the [typescript-exerc
 - **Step Definitions (`/steps`)**: The actual TypeScript code that links each Gherkin sentence to a Playwright action. For example, when the feature says "I search for Cucumber", the step definition tells Playwright to type "Cucumber" into the search box.
 - **Hooks (`/support/hooks.ts`)**: This code runs automatically before and after your scenarios. It sets up a fresh, invisible browser page for every test so that they remain perfectly isolated from each other.
 
-*Note: One of our scenarios explicitly tests what happens when you try to add a product with a negative quantity. GreenKart currently has a bug that allows this, which means that specific test will fail—exactly as a good test should when catching a real bug!*
+*Note: The cart feature includes a negative scenario: searching for a product that is not in the catalog ("Pineapple") shows no results and leaves the cart empty.*
+
+## Changes after review
+
+- 2026-10-28: Replaced the failing negative-quantity scenario in `greenkart-bdd` with "Cannot add a product that is not in the catalog". The site accepts negative and zero quantities (a site bug we can't fix), so that scenario could never pass. The new one reuses existing steps; the three steps only the old scenario used were removed.

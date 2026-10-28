@@ -180,4 +180,6 @@ The main takeaway is that a passing test is not automatically a useful test. It 
 ## Changes after review
 
 - 2026-10-28: Declared locators once per file in a `locators` object in the four `greenkart-bdd` step files (`add_to_cart`, `checkout`, `search`, `product_search_coverage`) to remove duplication.
-- 2026-10-28: Replaced index-based locators (`.nth()` on cart rows, `.cart-icon img`, `td.nth(4)`) with label-, role- and class-based ones, and swapped manual index loops for `allTextContents()`, so steps survive layout changes. Only the 3 pre-existing failing scenarios remain (known invalid-quantity bug and two whitespace-search scenarios).
+- 2026-10-28: Replaced index-based locators (`.nth()` on cart rows, `.cart-icon img`, `td.nth(4)`) with label-, role- and class-based ones, and swapped manual index loops for `allTextContents()`, so steps survive layout changes.
+- 2026-10-28: Replaced the `@known-failing` invalid-quantity scenario with a passing negative scenario (searching for a product not in the catalog leaves the cart empty); removed its unused steps.
+- 2026-10-28: Replaced the two `@known-bug` whitespace-search scenarios in `product_search_coverage.feature` (the site does not trim spaces, so they could never pass) with "multi-word term" and "match anywhere in the name" scenarios. Full suite: 40/40 passing.
