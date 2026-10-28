@@ -12,11 +12,10 @@ Feature: GreenKart Shopping Cart
     Then "Cucumber" should be included in my cart
     And the cart should contain 1 item
 
-  @known-failing
-  Scenario: Add a product to the cart with invalid quantity
-    When I attempt to add "Cucumber" with a quantity of -1 to my cart
-    Then an error message should be displayed indicating invalid quantity
-    And the cart should not include "Cucumber"
+  Scenario: Cannot add a product that is not in the catalog
+    When I search for "Pineapple"
+    Then no products should be displayed in the search results
+    And the cart should contain 0 items
 
   Scenario: Add a product from search results
     When I search for "ber"

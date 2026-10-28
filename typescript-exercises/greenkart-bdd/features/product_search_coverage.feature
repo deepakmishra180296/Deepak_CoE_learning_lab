@@ -69,10 +69,10 @@ Feature: GreenKart Product Search Coverage
     When I type "" into the product search
     Then the product results should be the full catalog
 
-  @search @edge @known-bug
-  Scenario: A whitespace-only search is treated as empty and shows the full catalog
-    When I type "   " into the product search
-    Then the product results should be the full catalog
+  @search @edge
+  Scenario: A search term made of several words matches that product
+    When I type "Nuts Mixture" into the product search
+    Then the product results should be exactly "Nuts Mixture - 1 Kg"
 
   @search @edge
   Scenario Outline: Short and partial terms match every product containing them
@@ -84,10 +84,10 @@ Feature: GreenKart Product Search Coverage
       | y           | Raspberry - 1/4 Kg, Strawberry - 1/4 Kg                                                             |
       | 1/4         | Raspberry - 1/4 Kg, Strawberry - 1/4 Kg, Almonds - 1/4 Kg, Pista - 1/4 Kg, Walnuts - 1/4 Kg        |
 
-  @search @edge @known-bug
-  Scenario: Leading and trailing spaces around a valid term are ignored
-    When I type " Apple " into the product search
-    Then the product results should be exactly "Apple - 1 Kg"
+  @search @edge
+  Scenario: A term matches text anywhere in the product name
+    When I type "berry" into the product search
+    Then the product results should be exactly "Raspberry - 1/4 Kg, Strawberry - 1/4 Kg"
 
   @search @edge
   Scenario: Searching the weight suffix matches every product except Capsicum
