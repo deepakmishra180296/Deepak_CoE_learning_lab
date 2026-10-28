@@ -34,6 +34,13 @@ def global_error_handler(page):
     def handle_page_error(exception):
         logger.error(f"[PAGE ERROR] {exception}")
 
+    def handle_dialog(dialog):
+        # Playwright auto-dismisses dialogs silently; record them so they are visible
+        logger.error(f"[DIALOG:{dialog.type}] {dialog.message}")
+        error_messages.append(f"[dialog:{dialog.type}] {dialog.message}")
+        dialog.dismiss()
+
+    page.on("dialog", handle_dialog)
     page.on("console", handle_console_error)
     page.on("crash", handle_crash)
     page.on("pageerror", handle_page_error)
