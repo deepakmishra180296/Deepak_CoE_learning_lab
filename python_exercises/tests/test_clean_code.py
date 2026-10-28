@@ -5,6 +5,7 @@ from playwright.sync_api import Page, Locator, expect
 GREENKART_URL = "https://rahulshettyacademy.com/seleniumPractise/#/"
 DISCOUNT_PROMO_CODE = "rahulshettyacademy"
 PROMO_APPLIED_MESSAGE = "Code applied ..!"
+PROMO_RESPONSE_TIMEOUT_MS = 30000
 DELIVERY_COUNTRY = "India"
 ORDER_SUCCESS_KEYWORD = "Thank you, your order has been placed successfully"
 
@@ -49,7 +50,7 @@ def apply_discount_code(page: Page, promo_code: str) -> None:
     page.locator("button.promoBtn").click()
 
     promo_status = page.locator(".promoInfo")
-    expect(promo_status).to_have_text(PROMO_APPLIED_MESSAGE)
+    expect(promo_status).to_have_text(PROMO_APPLIED_MESSAGE, timeout=PROMO_RESPONSE_TIMEOUT_MS)
 
 
 def complete_order_placement(page: Page, country: str) -> None:

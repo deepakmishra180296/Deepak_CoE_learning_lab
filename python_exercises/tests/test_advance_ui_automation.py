@@ -3,25 +3,12 @@ from playwright.sync_api import sync_playwright, Page, expect
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 
 @pytest.fixture(scope="function")
-def page():
-    with sync_playwright() as p:
-        # Increase expect timeout as site is slow to respond
-        expect.set_options(timeout=20000)
-        
-  
-        browser = p.chromium.launch(
-            headless=False, 
-            channel="chrome",
-            args=["--start-maximized"]
-        )
-        context = browser.new_context()
-        # Increase navigation timeouts as site is slow to respond
-        context.set_default_navigation_timeout(60000)
-        context.set_default_timeout(30000)
-        
-        page = context.new_page()
-        yield page
-        browser.close()
+def page(page: Page):
+    expect.set_options(timeout=30000)
+    page.context.set_default_navigation_timeout(60000)
+    page.context.set_default_timeout(30000)
+    page.set_viewport_size({"width": 1920, "height": 1080})
+    return page
 
 def test_shadow_dom(page: Page):
     page.goto("https://the-internet.herokuapp.com/shadowdom", wait_until="networkidle")

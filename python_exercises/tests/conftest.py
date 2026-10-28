@@ -13,6 +13,11 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+@pytest.fixture(scope="session")
+def browser_type_launch_args(browser_type_launch_args):
+    # Always run headless, even if --headed is passed
+    return {**browser_type_launch_args, "headless": True}
+
 @pytest.fixture(autouse=True)
 def global_error_handler(page):
 
