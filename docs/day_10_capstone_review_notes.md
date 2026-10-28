@@ -183,3 +183,7 @@ The main takeaway is that a passing test is not automatically a useful test. It 
 - 2026-10-28: Replaced index-based locators (`.nth()` on cart rows, `.cart-icon img`, `td.nth(4)`) with label-, role- and class-based ones, and swapped manual index loops for `allTextContents()`, so steps survive layout changes.
 - 2026-10-28: Replaced the `@known-failing` invalid-quantity scenario with a passing negative scenario (searching for a product not in the catalog leaves the cart empty); removed its unused steps.
 - 2026-10-28: Replaced the two `@known-bug` whitespace-search scenarios in `product_search_coverage.feature` (the site does not trim spaces, so they could never pass) with "multi-word term" and "match anywhere in the name" scenarios. Full suite: 40/40 passing.
+- 2026-10-28: Fixed three high-risk items from `edge_case_risk_register.md`:
+  - **Timeout order :** in `greenkart-bdd/support/hooks.ts`, raised the Cucumber step timeout to 60s and set Playwright's action/navigation timeouts to 15s/30s, so Playwright fails first and keeps its call log.
+  - **Silent dialogs :** added a `dialog` listener in `hooks.ts` (TypeScript) and `conftest.py` (Python) that records and logs each alert/confirm/prompt before dismissing it.
+  - **Session loss :** added `python_exercises/tests/test_session_edges.py` covering cleared cookies, logout in another tab, and the dialog recording. Python tests pass; the TypeScript hook change is not yet run (`node_modules` missing).
