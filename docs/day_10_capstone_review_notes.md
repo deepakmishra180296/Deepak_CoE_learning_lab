@@ -175,3 +175,9 @@ To run mutation testing on `add_to_cart_steps.ts`:
 Over these ten days, my focus has expanded from writing individual automation scripts to building tests that are readable, isolated, resilient, and maintainable. I have worked with clean-code practices, test design using ZOMBIES, Playwright reliability and isolation, BDD, POM and reusable components, test data design, and CI reporting and execution.
 
 The main takeaway is that a passing test is not automatically a useful test. It needs to check the right behavior, fail for the right reason, and give enough information to debug a failure. I also need to choose the correct test level instead of relying only on browser automation. My next focus is to improve framework design judgment, write clearer assertions, get more practice with CI configuration, and use mutation testing to find gaps that ordinary coverage can miss.
+
+
+## Changes after review
+
+- 2026-10-28: Declared locators once per file in a `locators` object in the four `greenkart-bdd` step files (`add_to_cart`, `checkout`, `search`, `product_search_coverage`) to remove duplication.
+- 2026-10-28: Replaced index-based locators (`.nth()` on cart rows, `.cart-icon img`, `td.nth(4)`) with label-, role- and class-based ones, and swapped manual index loops for `allTextContents()`, so steps survive layout changes. Only the 3 pre-existing failing scenarios remain (known invalid-quantity bug and two whitespace-search scenarios).

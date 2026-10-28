@@ -86,3 +86,10 @@ To run the test suite:
    ```
 4. Optional execution modes:
    - Run headed (watch browser execution): `npm run test:headed`
+
+
+## Changes after review
+
+- 2026-10-28: 
+   - Added Cucumber feature files (`features/`), step definitions and hooks to `pom-design`, wired to the existing page objects, so the POM is exercised through BDD scenarios. 
+   - Removed the Playwright `tests/` specs and `playwright.config.ts` to avoid two copies of the same behaviour; `npm test` now runs `cucumber-js`.
