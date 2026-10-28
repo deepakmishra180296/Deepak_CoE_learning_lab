@@ -4,15 +4,16 @@
   "description": "Mini Page Object Model Demo for Students using Playwright & TypeScript",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed"
+    "test": "cucumber-js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cucumber/cucumber": "^13.3.0",
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
     "typescript": "^5.8.0"
   }
 }
