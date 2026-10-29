@@ -9,5 +9,7 @@ test("playlab homepage navigates to locators page", async ({ page }) => {
   await page.goto("https://playwrightlab.github.io");
   await expect(page).toHaveTitle(/PlayLab/);
   await page.getByTestId("nav-locators").click();
-  await expect(page).toHaveURL(/locators\.html/);
+  await expect(page).toHaveURL(/\/locators\.html$/);
+  await expect(page).toHaveTitle(/^Locators \| PlayLab/);
+  await expect(page.getByTestId("loc-title")).toBeVisible();
 });
